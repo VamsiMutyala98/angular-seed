@@ -3,10 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { AboutChildOneComponent } from './about/about-child-one/about-child-one.component';
 import { AboutChildTwoComponent } from './about/about-child-two/about-child-two.component';
 import { AboutComponent } from './about/about.component';
-import { ContactComponent } from './contact/contact.component';
-import { HeaderComponent } from './header/header.component';
-import { HomeComponent } from './home/home.component';
-import { NotfoundComponent } from './notfound/notfound.component';
+import { ContactComponent } from './components/contact/contact.component';
+import { HeaderComponent } from './components/header/header.component';
+import { HomeComponent } from './components/home/home.component';
+import { NotfoundComponent } from './components/notfound/notfound.component';
+import { UsersComponent } from './components/users/users.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,9 @@ const routes: Routes = [
   },
   {
     path: 'contact', component: ContactComponent,
+  },
+  {
+    path: 'users', component: UsersComponent,
   },
   {
     path: '404', component: NotfoundComponent,
