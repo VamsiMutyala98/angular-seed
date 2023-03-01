@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { UserAddAction, UserDeleteAction, UserListRequestAction, UserUpdateAction } from 'src/app/actions/user-action';
 import { EUSER_ACTIONS, User } from 'src/app/models/user';
-import { getUsers, RootReducerState } from 'src/app/reducers';
+import { getUserLoading, getUsers, RootReducerState } from 'src/app/reducers';
 
 @Component({
   selector: 'app-users',
@@ -18,6 +18,7 @@ export class UsersComponent {
   };
   username: string = '';
   buttonLabel: string = '';
+  isLoading: boolean = false;
   constructor(private store: Store<RootReducerState>) {
   }
 
@@ -55,15 +56,14 @@ export class UsersComponent {
     }, 3000);
   }
 
-  userAction(action: string, user?: User) {
-    this.store.dispatch(new UserListRequestAction());
+  async userAction(action: string, user?: User) {
+    this.isLoading = true;
     switch(action) {
       case EUSER_ACTIONS.ADD_USER: {
         if (this.user.name && this.user.email)
-        setTimeout(() => {
+        setTimeout(async() => {
           this.store.dispatch(new UserAddAction({data: this.user}));
           this.store.select(getUsers).subscribe((data) => {
-            console.log(data);
             this.users = [...data];
             this.user = {
               id: NaN,
@@ -72,18 +72,26 @@ export class UsersComponent {
             }
           });
           this.buttonLabel = '';
+          this.isLoading = false;
         }, 3000);
         break;
       }
       case EUSER_ACTIONS.UPDATE_USER: {
-        if (this.user.name && this.user.email)
-        setTimeout(() => {
-          this.store.dispatch(new UserUpdateAction({data: this.user}));
-          this.store.select(getUsers).subscribe((data) => {
-            this.users = [...data];
-          });
-          this.buttonLabel = '';
-        }, 3000);
+        if (this.user.name && this.user.email) {
+          setTimeout(() => {
+            this.store.dispatch(new UserUpdateAction({data: this.user}));
+            this.store.select(getUsers).subscribe((data) => {
+              this.users = [...data];
+            });
+            this.user = {
+              id: NaN,
+              name: '',
+              email: '',
+            }
+            this.buttonLabel = '';
+            this.isLoading = false;
+          }, 3000);
+        }
         break;
       }
       case EUSER_ACTIONS.DELETE_USER: {
@@ -93,6 +101,7 @@ export class UsersComponent {
             this.users = [...data];
           });
           this.store.dispatch(new UserListRequestAction());
+          this.isLoading = false;
         }
       }
     }

@@ -2,47 +2,52 @@
   <h1>Users Component</h1>
   <div class="row d-flex justify-content-center">
     <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-8">
-      <div *ngIf="buttonLabel; else elseBlock">
-        <form class="add-user">
-          <div class="mb-3">
-            <label for="nameInput" class="form-label">Full Name:</label>
-            <input type="text" [(ngModel)]="user.name" [ngModelOptions]="{standalone: true}" class="form-control" id="nameInput" aria-describedby="nameHelp">
-          </div>
-          <div class="mb-3">
-            <label for="emailInput" class="form-label">Email address:</label>
-            <input type="text" [(ngModel)]="user.email" class="form-control" [ngModelOptions]="{standalone: true}" id="emailInput" aria-describedby="emailHelp">
-          </div>
-          <button type="submit" class="btn btn-info" (click)="userAction(buttonLabel)"  [disabled]="!user.name || !user.email">{{buttonLabel}}</button>
-        </form>
+      <div *ngIf="isLoading; else elseBlock1">
+        <h1 class="loading">Loading....</h1>
       </div>
-      <ng-template #elseBlock>
-        <button class="btn btn-primary" (click)="buttonAction('Add User')">Add New User</button>
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Name</th>
-              <th scope="col">Email</th>
-              <th scope="col">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let user of users; trackBy: trackByFn">
-              <td>{{ user.id }}</td>
-              <td>{{ user.name }}</td>
-              <td>{{ user.email }}</td>
-              <td>
-                <button class="btn btn-success" (click)="buttonAction('Update User', user)">Edit</button>&nbsp;&nbsp;
-                <button class="btn btn-danger" (click)="userAction('Delete User', user)">Delete</button>
-              </td>
-            </tr>
-            <tr *ngIf="users.length === 0">
-              <td colspan="4">
-                <h5>No users found</h5>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <ng-template #elseBlock1>
+        <div *ngIf="buttonLabel; else elseBlock2">
+          <form class="add-user">
+            <div class="mb-3">
+              <label for="nameInput" class="form-label">Full Name:</label>
+              <input type="text" [(ngModel)]="user.name" [ngModelOptions]="{standalone: true}" class="form-control" id="nameInput" aria-describedby="nameHelp">
+            </div>
+            <div class="mb-3">
+              <label for="emailInput" class="form-label">Email address:</label>
+              <input type="text" [(ngModel)]="user.email" class="form-control" [ngModelOptions]="{standalone: true}" id="emailInput" aria-describedby="emailHelp">
+            </div>
+            <button type="submit" class="btn btn-info" (click)="userAction(buttonLabel)"  [disabled]="!user.name || !user.email">{{buttonLabel}}</button>
+          </form>
+        </div>
+        <ng-template #elseBlock2>
+          <button class="btn btn-primary" (click)="buttonAction('Add User')">Add New User</button>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of users; let i=index; trackBy: trackByFn">
+                <td>{{ i+1 }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                  <button class="btn btn-success" (click)="buttonAction('Update User', user)">Edit</button>&nbsp;&nbsp;
+                  <button class="btn btn-danger" (click)="userAction('Delete User', user)">Delete</button>
+                </td>
+              </tr>
+              <tr *ngIf="users.length === 0">
+                <td colspan="4">
+                  <h5>No users found</h5>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-template>
       </ng-template>
     </div>
   </div>

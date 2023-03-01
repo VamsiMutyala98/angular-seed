@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AboutChildOneComponent } from './about/about-child-one/about-child-one.component';
-import { AboutChildTwoComponent } from './about/about-child-two/about-child-two.component';
-import { AboutComponent } from './about/about.component';
+import { AboutChildOneComponent } from './components/about/about-child-one/about-child-one.component';
+import { AboutChildTwoComponent } from './components/about/about-child-two/about-child-two.component';
+import { AboutComponent } from './components/about/about.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './components/home/home.component';
